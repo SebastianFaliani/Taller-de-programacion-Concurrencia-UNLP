@@ -1,0 +1,110 @@
+programa Pra2Eje4
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores:=flores +1
+  fin
+  
+  proceso juntarPapeles(ES papeles:numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      papeles:=papeles +1
+  fin
+
+areas
+  area: AreaPC(25,25,75,75)
+  area1:AreaP (25,1,25,1)
+  area2:AreaP (30,1,30,1)
+  area3:AreaP (35,1,35,1)
+  area4:AreaP (40,1,40,1)
+  area5:AreaP (1,1,1,1)
+robots
+  robot recolector
+  variables
+    flores,papeles:numero
+    av,avO,ca,caO:numero
+    total:numero
+    estado:boolean
+  comenzar
+    RecibirMensaje(estado,fis)
+    mientras (estado)
+      flores:=0
+      papeles:=0
+      RecibirMensaje(total,fis)
+      avO:=PosAv
+      caO:=PosCa
+      Random(av,25,75)
+      Random(ca,25,75)
+      Pos(av,ca)
+      juntarFlores(flores)
+      juntarPapeles(papeles)
+      total:=total+flores+papeles
+      Pos(avO,caO)
+      EnviarMensaje(total,fis)
+      RecibirMensaje(estado,fis)
+  fin
+  
+  robot fiscalizador
+  variables
+    total1,total2,total3,total4,:numero
+    numRobot,contador:numero
+  comenzar
+    total1:=0
+    total2:=0
+    total3:=0
+    total4:=0
+
+    repetir 10
+      Random(numRobot,1,4)
+      si(numRobot=1)
+        EnviarMensaje(V,r1)
+        EnviarMensaje(total1,r1)
+        RecibirMensaje(total1,r1)
+      sino
+        si(numRobot=2)
+          EnviarMensaje(V,r2)
+          EnviarMensaje(total2,r2)
+          RecibirMensaje(total2,r2)
+        sino
+          si(numRobot=3)
+            EnviarMensaje(V,r3)
+            EnviarMensaje(total3,r3)
+            RecibirMensaje(total3,r3)
+          sino
+            EnviarMensaje(V,r4)
+            EnviarMensaje(total4,r4)
+            RecibirMensaje(total4,r4)
+    EnviarMensaje(F,r1)
+    EnviarMensaje(F,r2)
+    EnviarMensaje(F,r3)
+    EnviarMensaje(F,r4)
+    Informar(total1)
+    Informar(total2)
+    Informar(total3)
+    Informar(total4)
+  fin
+  
+variables
+  r1,r2,r3,r4: recolector
+  fis:fiscalizador
+comenzar
+  AsignarArea(r1,area)
+  AsignarArea(r1,area1)
+  AsignarArea(r2,area)
+  AsignarArea(r2,area2)
+  AsignarArea(r3,area)
+  AsignarArea(r3,area3)
+  AsignarArea(r4,area)
+  AsignarArea(r4,area4)
+  AsignarArea(fis,area5)
+  Iniciar(r1,25,1)
+  Iniciar(r2,30,1)
+  Iniciar(r3,35,1)
+  Iniciar(r4,40,1)
+  Iniciar(fis,1,1)
+fin
+
+

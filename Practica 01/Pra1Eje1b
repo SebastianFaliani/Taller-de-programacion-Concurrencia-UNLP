@@ -1,0 +1,59 @@
+programa Pra1Eje1b
+procesos
+  proceso juntar(ES flores:numero; ES esquinaSinFlor:numero)
+  comenzar
+    si HayFlorEnLaEsquina 
+      mientras HayFlorEnLaEsquina
+        tomarFlor
+        flores:=flores+1
+    sino
+      esquinaSinFlor:=esquinaSinFlor+1
+  fin
+  
+  proceso depositar(ES flores:numero)
+  comenzar
+    repetir flores
+      depositarFlor
+    flores:=0
+  fin
+  
+  proceso recorrerAvenida(E avenida:numero)
+  variables
+    flores: numero
+    esquinaSinFlor:numero
+  comenzar
+    flores:=0
+    esquinaSinFlor:=0
+    Pos(avenida,1)
+    repetir  99
+      juntar(flores,esquinaSinFlor)
+      mover
+    depositar(flores)
+    Informar(esquinaSinFlor)
+  
+  fin
+  
+areas
+  ciudad: AreaC(1,1,100,100)
+
+robots
+  robot tipo1
+  variables
+    avenida:numero
+  comenzar
+    avenida:=1
+    mientras avenida<=5
+      recorrerAvenida(avenida)
+      avenida:=avenida+2
+  fin
+  
+  
+variables
+  robot1: tipo1
+comenzar
+  AsignarArea(robot1,ciudad)
+  Iniciar(robot1, 1, 1)
+fin
+  
+  
+

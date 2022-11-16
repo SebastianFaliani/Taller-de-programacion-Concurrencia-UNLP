@@ -1,0 +1,116 @@
+programa parcial
+procesos
+  proceso juntar(ES f : numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:= f + 1
+  fin
+  proceso avanzar(ES f : numero)
+  comenzar
+    repetir 5
+      juntar(f)
+      mover
+    juntar(f)
+  fin
+  proceso maximo(E flores: numero;ES max : numero;ES maxRobot: numero;E nR : numero)
+  comenzar
+    si(flores > max)
+      max:= flores
+      maxRobot:= nR
+  fin
+areas
+  t1 : AreaP(1,1,6,6)
+  t2 : AreaP(7,1,12,6)
+  t3 : AreaP(13,1,18,6)
+  inicio: AreaP(20,1,20,1)
+  deposito : AreaPC(10,10,10,10)
+robots
+  robot trabajador
+  variables
+    id,flores, av, ca: numero
+    b, b2: boolean
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    flores:= 0 
+    RecibirMensaje(id, rj)
+    repetir 4
+      avanzar(flores)
+      derecha
+      EnviarMensaje(V, rj)
+      RecibirMensaje(b, rj)
+    EnviarMensaje(id,rj)
+    EnviarMensaje(flores,rj)
+    RecibirMensaje(b2, rj)
+    si (b2)
+      mientras (flores <> 0)
+        BloquearEsquina(10,10)
+        Pos(10,10)
+        depositarFlor
+        flores:= flores - 1
+        Pos(av, ca)
+        LiberarEsquina(10,10)
+  fin
+  robot jefe
+  variables
+    id, flores,max,maxRobot: numero
+    b: boolean
+  comenzar
+    Pos(PosAv,PosCa)
+    EnviarMensaje(1, r1)
+    EnviarMensaje(2, r2)
+    EnviarMensaje(3, r3)
+    repetir 4
+      repetir 3
+        RecibirMensaje(b, *)
+      EnviarMensaje(V, r1)
+      EnviarMensaje(V, r2)
+      EnviarMensaje(V, r3)
+    repetir 3
+      RecibirMensaje(id,*)
+      si(id = 1)
+        RecibirMensaje(flores,r1)
+        maximo(flores,max,maxRobot,1)
+      sino
+        si(id = 2)
+          RecibirMensaje(flores,r2)
+          maximo(flores,max,maxRobot,2)
+        sino
+          si(id = 3)
+            RecibirMensaje(flores,r3)
+            maximo(flores,max,maxRobot,3)
+    Informar(maxRobot)
+    Informar(max)
+    si (maxRobot = 1)
+      EnviarMensaje(F, r1)
+      EnviarMensaje(V, r2)
+      EnviarMensaje(V, r3)
+    sino
+      si (maxRobot = 2)
+        EnviarMensaje(F, r2)
+        EnviarMensaje(V, r1)
+        EnviarMensaje(V, r3)
+      sino
+        EnviarMensaje(F, r3)
+        EnviarMensaje(V, r1)
+        EnviarMensaje(V, r2)
+  fin
+variables
+  r1 : trabajador
+  r2 : trabajador
+  r3 : trabajador
+  rj : jefe
+comenzar
+  AsignarArea(r1,t1)
+  AsignarArea(r1, deposito)
+  AsignarArea(r2, deposito)
+  AsignarArea(r3, deposito)
+  AsignarArea(r2,t2)
+  AsignarArea(r3,t3)
+  AsignarArea(rj,inicio)
+  Iniciar(r1,1,1)
+  Iniciar(r2,7,1)
+  Iniciar(r3,13,1)
+  Iniciar(rj,20,1)
+fin

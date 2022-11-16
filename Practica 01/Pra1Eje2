@@ -1,0 +1,68 @@
+programa pra1Eje2
+procesos
+  proceso juntarPapeles(ES papeles:numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      papeles:=papeles+1
+  fin
+  
+  proceso recorrer
+  variables
+    papeles:numero
+
+  comenzar
+    papeles:=0
+    repetir 9
+      juntarPapeles(papeles)
+      mover
+    juntarPapeles(papeles)  
+    Informar(papeles)
+  fin
+
+areas
+  area1: AreaP(10,10,10,19)
+  area2: AreaP(10,20,19,20)
+  area3: AreaP(20,11,20,20)
+  area4: AreaP(11,10,20,10)
+  
+robots
+  robot tipo1
+  comenzar
+    si (PosAv=10) & (PosCa=20)
+      derecha
+    sino
+      si (PosAv=20) & (PosCa=20)
+        repetir 2
+          derecha
+      sino
+        si (PosAv=20) & (PosCa=10)
+          repetir 3
+            derecha
+    recorrer
+  fin
+  
+variables
+  robot1: tipo1
+  robot2: tipo1
+  robot3: tipo1
+  robot4: tipo1
+comenzar
+  AsignarArea(robot1,area1)
+  AsignarArea(robot2,area2)
+  AsignarArea(robot3,area3)
+  AsignarArea(robot4,area4)
+  Iniciar(robot1, 10, 10)
+  Iniciar(robot2, 10, 20)
+  Iniciar(robot3, 20, 20)
+  Iniciar(robot4, 20, 10)
+fin
+
+
+
+
+
+
+
+
+

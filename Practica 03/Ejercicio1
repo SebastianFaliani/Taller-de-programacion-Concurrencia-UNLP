@@ -1,0 +1,46 @@
+programa Ejercicio1
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores:=flores+1
+  fin
+  
+  proceso dejarFlores(ES flores:numero)
+  comenzar
+    repetir flores
+      depositarFlor
+    flores:=0
+  fin
+  
+areas
+  area1: AreaP(15,15,30,35)
+  area2: AreaP(40,40,55,60)
+
+robots
+  robot tipo1
+  variables
+    flores:numero
+  comenzar
+    flores:=0
+    repetir 2
+      repetir 14
+        juntarFlores(flores)
+        mover
+      juntarFlores(flores)
+      derecha
+      repetir 19
+        juntarFlores(flores)
+        mover
+      juntarFlores(flores)
+  fin
+  
+variables
+  r1,r2:tipo1
+comenzar
+  AsignarArea(r1,area1)
+  AsignarArea(r2,area2)
+  Iniciar(r1,15,15)
+  Iniciar(r1,40,40)
+fin

@@ -1,0 +1,57 @@
+programa Ejencicio1-ha
+
+procesos
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  
+  proceso juntar(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+  fin
+ 
+  proceso recorrer(E esquinas:numero; ES flores:numero)
+  comenzar
+    repetir esquinas
+      juntar(flores)
+      mover
+  fin    
+ 
+  proceso rectangulo(E alto:numero; E ancho:numero; ES flores:numero)
+  comenzar
+    flores:=0
+    repetir 2
+      recorrer(alto, flores)
+      derecha
+      recorrer(ancho, flores)
+      derecha
+  fin
+
+areas
+  ciudad: AreaC(1,1,100,100)
+
+robots
+  robot tipo1
+  variables
+    alto,ancho,flores:numero
+  comenzar
+    {Pos(2,2)}
+    alto:=5
+    ancho:=3
+    rectangulo(alto,ancho,flores)
+    Informar(flores)
+  fin
+
+variables
+  robot1: tipo1
+  robot2: tipo1
+comenzar
+  AsignarArea(robot1,ciudad)
+  AsignarArea(robot2,ciudad)  
+  Iniciar(robot1,2,2)
+  Iniciar(robot2,6,2)
+fin

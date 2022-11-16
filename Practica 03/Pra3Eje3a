@@ -1,0 +1,93 @@
+programa Pra3Eje3
+areas
+  area: AreaP(2,2,10,10)
+  ciudad: AreaP(1,1,5,1)
+robots
+  robot tipo1
+  variables
+    flores:numero
+    quienSoy:numero
+    av,ca,avIni,caIni:numero
+    estado:boolean
+  comenzar
+    RecibirMensaje(estado,je)
+    mientras estado
+      flores:=0
+      RecibirMensaje(av,je)
+      RecibirMensaje(ca,je)
+      BloquearEsquina(av,ca)
+      avIni:=PosAv
+      caIni:=PosCa
+      Pos(av,ca)
+      si HayFlorEnLaEsquina
+        tomarFlor
+      estado:=HayFlorEnLaEsquina
+      Pos(avIni,caIni)
+      LiberarEsquina(av,ca)
+      EnviarMensaje(estado,je)
+      RecibirMensaje(estado,je)
+  fin
+  
+  robot jefe
+  variables
+    numRobot:numero
+    av,ca:numero
+    estado:boolean
+  comenzar
+    numRobot:=0
+    Random(av,2,10)
+    Random(ca,2,10)
+    estado:=V
+    mientras estado
+      si estado
+        EnviarMensaje(estado,r1)
+        EnviarMensaje(av,r1)
+        EnviarMensaje(ca,r1)
+        RecibirMensaje(estado,r1)
+      si estado
+        EnviarMensaje(estado,r2)
+        EnviarMensaje(av,r2)
+        EnviarMensaje(ca,r2)
+        RecibirMensaje(estado,r2)
+      si estado
+        EnviarMensaje(estado,r3)
+        EnviarMensaje(av,r3)
+        EnviarMensaje(ca,r3)
+        RecibirMensaje(estado,r3)
+      si estado
+        EnviarMensaje(estado,r4)
+        EnviarMensaje(av,r4)
+        EnviarMensaje(ca,r4)
+        RecibirMensaje(estado,r4)
+    EnviarMensaje(estado,r1)
+    EnviarMensaje(estado,r2)
+    EnviarMensaje(estado,r3)
+    EnviarMensaje(estado,r4)
+    
+    
+  fin
+  
+variables
+  r1,r2,r3,r4:tipo1
+  je:jefe
+comenzar
+  AsignarArea(r1,area)
+  AsignarArea(r2,area)
+  AsignarArea(r3,area)
+  AsignarArea(r4,area)
+  AsignarArea(je,ciudad)
+  AsignarArea(r1,ciudad)
+  AsignarArea(r2,ciudad)
+  AsignarArea(r3,ciudad)
+  AsignarArea(r4,ciudad)
+  Iniciar(je,1,1)
+  Iniciar(r1,2,1)
+  Iniciar(r2,3,1)
+  Iniciar(r3,4,1)
+  Iniciar(r4,5,1)
+fin
+
+
+
+
+

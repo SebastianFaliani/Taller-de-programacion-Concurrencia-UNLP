@@ -1,0 +1,99 @@
+programa Ejencicio1-ha
+
+procesos
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  
+  proceso juntar(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:=flores+1
+  fin
+ 
+  proceso recorrer(E esquinas:numero; ES flores:numero)
+  comenzar
+    repetir esquinas
+      juntar(flores)
+      mover
+  fin    
+ 
+  proceso rectangulo(E alto:numero; E ancho:numero; ES flores:numero)
+  comenzar
+    flores:=0
+    repetir 2
+      recorrer(alto, flores)
+      derecha
+      recorrer(ancho, flores)
+      derecha
+  fin
+
+areas
+  ciudad: AreaP(1,1,20,20)
+
+robots
+  robot empleado
+  variables
+    alto,ancho,flores,quienSoy:numero
+  comenzar
+    RecibirMensaje(quienSoy,elJefe)
+    RecibirMensaje(alto,elJefe)
+    RecibirMensaje(ancho,elJefe)
+    
+    rectangulo(alto,ancho,flores)
+    
+    EnviarMensaje(quienSoy,elJefe)
+    EnviarMensaje(flores,elJefe)
+  fin
+  
+  robot jefe
+  variables
+    flores,numRobot:numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(5,r1)
+    EnviarMensaje(3,r1)
+    
+    EnviarMensaje(2,r2)
+    EnviarMensaje(8,r2)
+    EnviarMensaje(2,r2)
+    
+    RecibirMensaje(numRobot,*)
+    si (numRobot=1)
+      RecibirMensaje(flores,r1)
+    sino
+      RecibirMensaje(flores,r2)
+
+    Informar(numRobot, flores)
+    
+    RecibirMensaje(numRobot,*)
+    si (numRobot=1)
+      RecibirMensaje(flores,r1)
+    sino
+      RecibirMensaje(flores,r2)
+    Informar(numRobot, flores)
+    
+  fin
+
+variables
+  r1: empleado
+  r2: empleado
+  elJefe: jefe
+comenzar
+  AsignarArea(r1,ciudad)
+  AsignarArea(r2,ciudad)
+  AsignarArea(elJefe,ciudad)
+  Iniciar(r1,2,2)
+  Iniciar(r2,6,2)
+  Iniciar(elJefe,12,2)
+fin
+
+
+
+
+
+
+

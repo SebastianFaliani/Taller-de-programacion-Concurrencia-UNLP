@@ -1,0 +1,363 @@
+programa punto1
+procesos
+  proceso juntarF (ES flores : numero ) 
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores:= flores +1
+  fin
+  proceso depositar ( E id : numero ) 
+  variables
+    av,ca: numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    si (id=1) 
+      si HayFlorEnLaBolsa
+        BloquearEsquina (av,ca +1) 
+        Pos (av,ca +1)
+        mientras HayFlorEnLaBolsa
+          depositarFlor
+        Pos (av,ca) 
+        LiberarEsquina (av,ca +1) 
+    sino
+      si (id=2)
+        si HayFlorEnLaBolsa
+          BloquearEsquina (av,ca -1)
+          Pos (av,ca -1) 
+          mientras HayFlorEnLaBolsa
+            depositarFlor
+          Pos (av,ca) 
+          LiberarEsquina (av,ca -1)
+  fin
+  proceso cuadrado1 (ES flor : numero ; E id : numero) 
+  comenzar
+    derecha
+    repetir 10
+      mover
+      juntarF (flor) 
+      depositar (id)
+  fin
+  proceso depositar2 (E id : numero) 
+  variables
+    av,ca : numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    si (id=4)
+      si HayFlorEnLaBolsa
+        BloquearEsquina (av,ca +1)
+        Pos (av,ca +1) 
+        mientras HayFlorEnLaBolsa
+          depositarFlor
+        Pos (av,ca) 
+        LiberarEsquina (av,ca +1)
+    sino
+      si (id=5)
+        si HayFlorEnLaBolsa
+          BloquearEsquina (av, ca -1)
+          Pos (av, ca -1) 
+          mientras HayFlorEnLaBolsa
+            depositarFlor
+          Pos (av,ca) 
+          LiberarEsquina (av, ca -1) 
+  fin
+  proceso izquierda 
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso cuadrado2 (ES flor : numero ; E id : numero ) 
+  comenzar
+    izquierda
+    repetir 10
+      mover
+      juntarF (flor)
+      depositar (id)
+  fin
+  proceso agarrarF (ES flor : numero ; E id : numero ) 
+  variables
+    av,ca : numero
+  comenzar
+    av:= PosAv
+    ca:= PosCa
+    si (id=3) 
+      derecha
+      repetir 10 
+        mover
+        juntarF (flor) 
+      BloquearEsquina (20,20) 
+      Pos (20,20) 
+      repetir flor
+        depositarFlor
+      Pos (av,ca) 
+      LiberarEsquina (20,20) 
+    sino
+      si (id=6) 
+        izquierda 
+        repetir 10
+          mover
+          juntarF(flor) 
+        BloquearEsquina (20,20) 
+        Pos (20,20) 
+        repetir flor
+          depositarFlor
+        Pos (av,ca) 
+        LiberarEsquina (20,20) 
+  fin  
+areas
+  c1: AreaPC (9,19,19,21) 
+  c2: AreaPC (21,19,31,21) 
+  c3: AreaPC (20,20,20,20) 
+  c4: AreaP (20,18,20,18) 
+robots 
+  robot tipo1  
+  variables
+    id,f1: numero
+  comenzar
+    f1:=0 
+    RecibirMensaje (id,jefe)
+    cuadrado1(f1,id)
+    EnviarMensaje (id,r3)
+  fin
+  robot tipo2
+  variables
+    id1 ,id,total: numero
+  comenzar
+    RecibirMensaje (id,jefe) 
+    repetir 2
+      RecibirMensaje (id1,*) 
+    agarrarF (total, id) 
+    EnviarMensaje (id,jefe) 
+    EnviarMensaje (total,jefe)
+  fin
+  robot tipo3
+  variables
+    id,f2 : numero 
+  comenzar
+    f2:=0
+    RecibirMensaje (id,jefe) 
+    cuadrado2 (f2,id) 
+    EnviarMensaje (id,r6) 
+  fin
+  robot tipo4
+  variables
+    id,id1,total: numero
+  comenzar
+    RecibirMensaje (id,jefe) 
+    repetir 2
+      RecibirMensaje (id1,*) 
+    agarrarF (total, id) 
+    EnviarMensaje (id,jefe) 
+    EnviarMensaje (total,jefe) 
+  fin
+  robot jef
+  variables
+    id, win,win2,tot1,tot2 : numero
+  comenzar
+    EnviarMensaje (1,r1) 
+    EnviarMensaje (2,r2) 
+    EnviarMensaje (3,r3) 
+    EnviarMensaje (4,r4)
+    EnviarMensaje (5,r5) 
+    EnviarMensaje (6,r6) 
+    RecibirMensaje (id,*)
+    si (id=3)
+      RecibirMensaje (tot1,r3) 
+      win:= 1
+    sino
+      si (id=6) 
+        RecibirMensaje (tot2,r6) 
+        win:= 2
+    RecibirMensaje (id,*) 
+    si (id=3)
+      RecibirMensaje (tot1,r3) 
+    sino
+      si (id=6) 
+        RecibirMensaje (tot2,r6) 
+    si (tot1>tot2)
+      win2:= 1
+    sino
+      win:= 2 
+    Informar (win) 
+    Informar (win2) 
+  fin 
+variables 
+  r1,r2 : tipo1
+  r3: tipo2
+  r4,r5: tipo3
+  r6: tipo4
+  jefe: jef
+comenzar
+  AsignarArea (r1,c1) 
+  AsignarArea (r2,c1) 
+  AsignarArea (r3,c1)
+  AsignarArea (r3,c3) 
+  AsignarArea (r4,c2)
+  AsignarArea (r5,c2) 
+  AsignarArea (r6,c2) 
+  AsignarArea (r6,c3) 
+  AsignarArea (jefe,c4)
+  Iniciar (r1,9,19) 
+  Iniciar (r2,9,21)
+  Iniciar (r3,9,20) 
+  Iniciar (r4,31,19)
+  Iniciar (r5, 31,21) 
+  Iniciar (r6, 31,20)  
+  Iniciar (jefe,20,18)
+fin
+
+Te copio el mio, yo hice solo 3 tios de robot
+
+programa repaso2
+procesos
+  proceso juntar(ES flores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      flores:= flores + 1
+  fin
+areas
+  centro1: AreaPC(9,20,19,20)
+  sup1: AreaP(9,21,19,21)
+  inf1: AreaP(9,19,19,19)
+  depositar: AreaPC(20,20,20,20)
+  centro2: AreaPC(21,20,31,20)
+  sup2: AreaP(21,21,31,21)
+  inf2: AreaP(21,19,31,19)
+  boss: AreaP(20,18,20,18)
+robots
+  robot centro
+  variables
+    equipo,flores,ia,ic:numero
+    recibir:boolean
+  comenzar
+    ia:=PosAv
+    ic:=PosCa
+    flores:= 0
+    RecibirMensaje(equipo,jefe)
+    si(equipo = 1)
+      derecha
+    sino
+      si(equipo = 2)
+        repetir 3
+          derecha
+    repetir 9
+      si(equipo = 1)
+        RecibirMensaje(recibir,r1)
+        RecibirMensaje(recibir,r2)
+      sino
+        si(equipo = 2)
+          RecibirMensaje(recibir,r4)
+          RecibirMensaje(recibir,r5)
+      mover
+      juntar(flores)
+    mover
+    juntar(flores)
+    BloquearEsquina(20,20)
+    Pos(20,20)
+    repetir flores
+      depositarFlor
+    EnviarMensaje(equipo,jefe)
+    EnviarMensaje(flores,jefe)
+    Pos(ia,ic)
+    LiberarEsquina(20,20)
+  fin
+  robot laterales
+  variables
+    equipo,flores,av,ca,ia:numero
+  comenzar
+    RecibirMensaje(equipo,jefe)
+    flores:=0
+    ia:=PosAv
+    ca:=PosCa
+    si(equipo = 1)
+      derecha
+    sino
+      si(equipo = 2)
+        repetir 3
+          derecha
+    mover
+    repetir 9
+      juntar(flores)
+      av:=PosAv
+      BloquearEsquina(av,20)
+      Pos(av,20)
+      repetir flores
+        depositarFlor
+      Pos(av,ca)
+      flores:= 0
+      LiberarEsquina(av,20)
+      si(equipo = 1)
+        EnviarMensaje(V,r3)
+      sino
+        si(equipo = 2)
+          EnviarMensaje(V,r6)
+      mover
+    Pos(ia,ca)
+  fin
+  robot fiscalizador
+  variables
+    pri,seg,prif,segf,actual:numero
+    primero:boolean
+  comenzar
+    primero:= F
+    EnviarMensaje(1,r1)
+    EnviarMensaje(1,r2)
+    EnviarMensaje(1,r3)
+    EnviarMensaje(2,r4)
+    EnviarMensaje(2,r5)
+    EnviarMensaje(2,r6)
+    repetir 2
+      RecibirMensaje(actual,*)
+      si(primero = F)
+        pri:=actual
+        si(actual = 1)
+          RecibirMensaje(prif,r3)
+        sino
+          si(actual = 2)
+            RecibirMensaje(prif,r6)
+        primero:= V
+        Informar(actual)
+      sino
+        seg:=actual
+        si(actual = 1)
+          RecibirMensaje(segf,r3)
+        sino
+          si(actual = 2)
+            RecibirMensaje(segf,r6)
+    si(prif > segf)
+      Informar(pri)
+    sino
+      si(prif < segf)
+        Informar(seg)
+      sino
+        si(prif = segf)
+          Informar(0)    
+  fin
+variables
+  r1,r2,r4,r5:laterales
+  r3,r6:centro
+  jefe:fiscalizador
+comenzar
+  AsignarArea(r3,centro1)
+  AsignarArea(r3,depositar)
+  AsignarArea(r6,centro2)
+  AsignarArea(r6,depositar)
+  AsignarArea(r1,inf1)
+  AsignarArea(r1,centro1)
+  AsignarArea(r2,sup1)
+  AsignarArea(r2,centro1)
+  AsignarArea(r4,inf2)
+  AsignarArea(r4,centro2)
+  AsignarArea(r5,sup2)
+  AsignarArea(r5,centro2)
+  AsignarArea(jefe,boss)
+  Iniciar(r2,9,21)
+  Iniciar(r1,9,19)
+  Iniciar(r3,9,20)
+  Iniciar(jefe,20,18)
+  Iniciar(r5,31,21)
+  Iniciar(r4,31,19)
+  Iniciar(r6,31,20)
+fin

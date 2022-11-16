@@ -1,0 +1,134 @@
+programa ex6a
+procesos
+  proceso juntarTodo
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso juntar(E aux: boolean)
+  comenzar
+    si(aux)
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+    sino
+      mientras(HayPapelEnLaEsquina)
+        tomarPapel
+  fin
+  proceso cuadradoTodo(E t: numero; E id : numero)
+  comenzar
+    repetir 4
+      repetir t
+        juntarTodo
+        mover
+      derecha
+    EnviarMensaje(id,rj)
+    EnviarMensaje(V,rj)
+  fin
+  proceso cuadrado(E t: numero; E aux : boolean; E id : numero)
+  comenzar
+    repetir 4
+      repetir t
+        juntar(aux)
+        mover
+      derecha
+    EnviarMensaje(id,rj)
+    EnviarMensaje(V,rj)
+  fin
+areas
+  ciudad: AreaPC(1,1,20,23)
+robots
+  robot flores
+  variables
+    tamaño: numero
+    calle: numero
+    id: numero
+  comenzar
+    tamaño:= 6
+    RecibirMensaje(id,rj)
+    cuadrado(tamaño,V,id)
+    RecibirMensaje(calle,rj)
+    Pos(1,calle)
+    derecha
+    mientras((HayFlorEnLaBolsa) & (PosAv < 20))
+      depositarFlor
+      mover
+  fin
+  robot papeles
+  variables
+    tamaño: numero
+    id: numero
+    calle: numero
+  comenzar
+    tamaño:= 7
+    RecibirMensaje(id,rj)
+    cuadrado(tamaño,F,id)
+    RecibirMensaje(calle,rj)
+    Pos(1,calle)
+    derecha
+    mientras((HayPapelEnLaBolsa) & (PosAv < 20))
+      depositarPapel
+      mover
+  fin
+  robot todo
+  variables
+    tamaño: numero
+    calle: numero
+    id : numero
+  comenzar
+    tamaño:= 10
+    RecibirMensaje(id,rj)
+    cuadradoTodo(tamaño,id)
+    RecibirMensaje(calle,rj)
+    Pos(1,calle)
+    derecha
+    mientras((HayPapelEnLaBolsa) & (HayFlorEnLaBolsa) & (PosAv < 20))
+      depositarPapel
+      depositarFlor
+      mover
+  fin
+  robot jefe
+  variables
+    termine : boolean
+    calle : numero
+    id : numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    calle:= 19
+    repetir 3
+      RecibirMensaje(id,*)
+      si(id = 1)
+        RecibirMensaje(termine,r1)
+        calle:= calle + 1
+        EnviarMensaje(calle,r1)
+      sino
+        si(id = 2)
+          RecibirMensaje(termine,r2)
+          calle:= calle + 1
+          EnviarMensaje(calle,r2)
+        sino
+          si(id = 3)
+            RecibirMensaje(termine,r3)
+            calle:= calle + 1
+            EnviarMensaje(calle,r3)
+  fin
+variables
+  r1: flores
+  r2: papeles
+  r3: todo
+  rj: jefe
+comenzar
+  AsignarArea(r1, ciudad)
+  AsignarArea(r2, ciudad)
+  AsignarArea(r3, ciudad)
+  AsignarArea(rj, ciudad)
+  Iniciar(r1, 2,2)
+  Iniciar(r3, 5,5)
+  Iniciar(r2,9,9)
+  Iniciar(rj,1,1)
+fin
+
+

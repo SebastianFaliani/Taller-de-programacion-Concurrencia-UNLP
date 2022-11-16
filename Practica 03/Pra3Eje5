@@ -1,0 +1,102 @@
+programa Pra3Eje5
+procesos
+  proceso masLejos(E rob:numero; E ca:numero; ES robMax:numero; ES caMax:numero)
+  comenzar
+    si ca>caMax
+      caMax:=ca
+      robMax:=rob
+  fin
+areas
+  areaC: AreaP(1,1,1,1)
+  area1: AreaP(4,1,4,100)
+  area2: AreaP(6,1,6,100)
+  area3: AreaP(8,1,8,100)
+  area4: AreaP(10,1,10,100)
+  area: AreaPC(11,11,11,11)
+  
+robots
+  robot tipo1
+  variables
+    avIni,caIni,quienSoy,cont:numero
+    estado:boolean
+  comenzar
+    cont:=1
+    estado:=V
+    avIni:=PosAv
+    caIni:=PosCa
+    
+    mientras cont<100 & estado 
+      BloquearEsquina(11,11)
+      Pos(11,11)
+      si HayPapelEnLaEsquina
+        tomarPapel
+      sino
+        estado:=F
+      Pos(avIni,caIni)
+      LiberarEsquina(11,11)
+      mover
+      avIni:=PosAv
+      caIni:=PosCa
+      cont:=cont + 1
+    RecibirMensaje(quienSoy,co)
+    EnviarMensaje(quienSoy,co)
+    EnviarMensaje(caIni,co)
+  fin
+  
+  robot coordinador
+  variables
+    numRobot:numero
+    caR1,caR2,caR3,caR4:numero
+    robMax,caMax:numero
+  comenzar
+    robMax:=0
+    caMax:=0
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    repetir 4
+      RecibirMensaje(numRobot,*)
+      si numRobot=1
+        RecibirMensaje(caR1,*)
+        masLejos(numRobot, caR1, robMax, caMax)
+      sino
+        si numRobot=2
+          RecibirMensaje(caR2,*)
+          masLejos(numRobot, caR2, robMax, caMax)
+        sino
+          si numRobot=3
+            RecibirMensaje(caR3,*)
+            masLejos(numRobot, caR3, robMax, caMax)
+          sino
+            si numRobot=4
+              RecibirMensaje(caR4,*)
+              masLejos(numRobot, caR4, robMax, caMax)
+    Informar(robMax)
+  fin
+  
+variables
+  r1,r2,r3,r4:tipo1
+  co:coordinador
+comenzar
+  AsignarArea(co,areaC)
+  AsignarArea(r1,area1)
+  AsignarArea(r2,area2)
+  AsignarArea(r3,area3)
+  AsignarArea(r4,area4)
+  AsignarArea(r1,area)
+  AsignarArea(r2,area)
+  AsignarArea(r3,area)
+  AsignarArea(r4,area)
+  Iniciar(co,1,1)
+  Iniciar(r1,4,1)
+  Iniciar(r2,6,1)
+  Iniciar(r3,8,1)
+  Iniciar(r4,10,1)
+  
+fin
+
+
+
+
+

@@ -1,0 +1,60 @@
+programa Pra2Eje1b
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores:=flores+1
+  fin
+  
+  proceso juntarFloresEnLaAvenida(ES flores:numero)
+  comenzar
+    flores:=0
+    repetir 9
+      juntarFlores(flores)
+      mover
+    juntarFlores(flores)
+  fin
+  
+areas
+  area1: AreaP(1,1,1,10)
+  area2: AreaP(2,11,2,20)
+  area3: AreaP(2,1,2,1)
+
+robots
+  robot tipo1
+  variables
+    flores:numero
+  comenzar
+    juntarFloresEnLaAvenida(flores)
+    EnviarMensaje(flores,fis)
+  fin
+
+  robot fiscalizador
+  variables
+    flores,flores1:numero
+  comenzar
+    RecibirMensaje(flores,r1)
+    RecibirMensaje(flores1,r2)
+    si (flores1>flores)
+      Informar(flores1 - flores)
+    sino
+      Informar(flores - flores1)
+  fin
+
+
+variables
+  r1,r2:tipo1
+  fis:fiscalizador
+comenzar
+  AsignarArea(r1,area1)
+  AsignarArea(r2,area2)
+  AsignarArea(fis,area3)
+  Iniciar(r1,1,1)
+  Iniciar(r2,2,11)
+  Iniciar(fis,2,1)
+fin
+
+
+
+

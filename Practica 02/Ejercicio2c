@@ -1,0 +1,61 @@
+programa Ejercicio2c
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores:=flores + 1
+  fin
+  
+areas
+  ciudad: AreaP(1,1,1,1)
+  area1: AreaP(2,2,7,7)
+  area2: AreaP(8,2,13,7)
+  area3: AreaP(14,2,19,7)
+  
+robots
+  robot jefe
+  variables
+    totalFlores,flores:numero
+  comenzar
+    totalFlores:=0
+    repetir 3
+      RecibirMensaje(flores,*)
+      totalFlores:=totalFlores+flores
+    Informar(totalFlores)
+  fin
+  
+  robot jugador
+  variables
+    av,ca,sup,inf:numero
+    flores:numero
+  comenzar
+    flores:=0
+    inf:=PosAv
+    sup:=inf+5
+    repetir 3
+      Random(av,inf,sup)
+      Random(ca,2,7)
+      Pos(av,ca)
+      juntarFlores(flores)
+    Pos(inf,2)
+    EnviarMensaje(flores,je)
+  fin
+  
+variables
+  je: jefe
+  j1:jugador
+  j2:jugador
+  j3:jugador
+
+comenzar
+  AsignarArea(je,ciudad)
+  AsignarArea(j1,area1)
+  AsignarArea(j2,area2)
+  AsignarArea(j3,area3)
+  Iniciar(je,1,1)
+  Iniciar(j1,2,2)
+  Iniciar(j2,8,2)
+  Iniciar(j3,14,2)
+fin
+

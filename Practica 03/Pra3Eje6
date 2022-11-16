@@ -1,0 +1,59 @@
+programa Pra3Eje6
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores:=flores +1 
+  fin
+  proceso rectangulo(E alto:numero;ES flores:numero)
+  variable
+  comenzar
+    flores:=0
+    repetir 4
+      repetir alto
+        juntarFlores(flores)
+        mover
+      derecha 
+  fin
+areas
+  area: AreaC(1,1,100,100)
+robots
+  robot tipo1
+  variables
+    quienSoy,alto:numero
+    flores:numero
+  comenzar
+    RecibirMensaje(quienSoy,co)
+    RecibirMensaje(alto,co)
+    rectangulo(alto,flores)
+  fin
+  
+  robot coordinador
+  variables
+    numRobot:numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(6,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(10,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(7,r3)
+
+  fin
+variables
+  r1,r2,r3:tipo1
+  co:coordinador
+comenzar
+  AsignarArea(co,area)
+  AsignarArea(r1,area)
+  AsignarArea(r2,area)
+  AsignarArea(r3,area)
+  Iniciar(co,1,1)
+  Iniciar(r1,2,2)
+  Iniciar(r2,5,5)
+  Iniciar(r3,9,9)
+fin
+
+
+

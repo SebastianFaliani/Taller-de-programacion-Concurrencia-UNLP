@@ -1,0 +1,85 @@
+programa Pra1Eje4
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+  
+  proceso juntarAvFlores
+  comenzar
+    repetir 99
+      juntarFlores
+      mover
+    juntarFlores
+  fin
+  
+  proceso juntarAvPapeles
+  comenzar
+    repetir 99
+      juntarPapeles
+      mover
+    juntarPapeles
+  fin
+  
+  proceso juntarAreaFlores
+  comenzar
+    repetir 24
+      juntarAvPapeles
+      Pos(PosAv+1,1)
+    juntarAvPapeles
+  fin
+  
+  proceso juntarAreaPapeles
+  comenzar
+    repetir 24
+      juntarAvFlores
+      Pos(PosAv+1,1)
+    juntarAvFlores
+  fin
+
+
+areas
+  area1: AreaP(1,1,25,100)
+  area2: AreaP(26,1,50,100)
+  area3: AreaP(51,1,75,100)
+  area4: AreaP(76,1,100,100)
+  
+robots
+  robot tipo1
+  comenzar
+    juntarAreaFlores
+    Pos(PosAv+26,1)
+    juntarAreaFlores
+  fin  
+  
+  robot tipo2
+  comenzar
+    juntarAreaPapeles
+    Pos(PosAv+26,1)
+    juntarAreaPapeles
+  fin
+
+  
+variables
+  r1: tipo1
+  r2: tipo2
+comenzar
+  AsignarArea(r1,area1)
+  AsignarArea(r2,area2)
+  AsignarArea(r1,area3)
+  AsignarArea(r2,area4)
+  Iniciar(r1,1,1)
+  Iniciar(r2,26,1)
+
+fin
+
+
+
+

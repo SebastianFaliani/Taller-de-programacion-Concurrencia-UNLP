@@ -1,0 +1,92 @@
+programa Pra4Eje1
+procesos
+  proceso depositarFlores(E flores:numero)
+  comenzar
+    repetir flores
+      depositarFlor
+  fin
+  proceso juntarFlores(E flores:numero)
+  comenzar
+    repetir flores
+      tomarFlor
+  fin
+  
+areas
+  area1: AreaPC(1,1,1,100)
+  area2: AreaPC(2,1,2,100)
+  area3: AreaPC(3,1,3,100)
+  areaSv: AreaP(100,100,100,100)
+robots
+  robot Cliente
+  variables
+    av,ca,cant,quienSoy:numero
+    ok:boolean
+  comenzar
+    RecibirMensaje(quienSoy,sv)
+    Random(cant,1,4)
+    EnviarMensaje(quienSoy,sv)
+    EnviarMensaje(cant,sv)
+    av:=PosAv
+    ca:=PosCa
+    EnviarMensaje(av,sv)
+    EnviarMensaje(ca + 1,sv)
+    RecibirMensaje(ok,sv)
+    mover
+    juntarFlores(cant)
+    Pos(av,ca)
+    repetir cant
+      depositarFlor
+      mover
+  fin
+  robot Servidor
+  variables
+    numRobot,flores,av,ca:numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    RecibirMensaje(numRobot,*)
+    si numRobot=1
+      RecibirMensaje(flores,r1)
+      RecibirMensaje(av,r1)
+      RecibirMensaje(ca,r1)
+      Pos(av,ca)
+      depositarFlores(flores)
+      Pos(100,100)
+      EnviarMensaje(V,r1)
+    sino
+      si numRobot=2
+        RecibirMensaje(flores,r2)
+        RecibirMensaje(av,r2)
+        RecibirMensaje(ca,r2)
+        Pos(av,ca)
+        depositarFlores(flores)
+        Pos(100,100)
+        EnviarMensaje(V,r2)
+      sino
+        RecibirMensaje(flores,r3)
+        RecibirMensaje(av,r3)
+        RecibirMensaje(ca,r3)
+        Pos(av,ca)
+        depositarFlores(flores)
+        Pos(100,100)
+        EnviarMensaje(V,r3)
+  
+    fin
+variables
+  r1,r2,r3:Cliente
+  sv:Servidor
+comenzar
+  AsignarArea(sv,areaSv)
+  AsignarArea(sv,area1)
+  AsignarArea(sv,area2)
+  AsignarArea(sv,area3)
+  AsignarArea(r1,area1)
+  AsignarArea(r2,area2)
+  AsignarArea(r3,area3)
+  Iniciar(sv,100,100)
+  Iniciar(r1,1,1)
+  Iniciar(r2,2,1)
+  Iniciar(r3,3,1)
+fin
+

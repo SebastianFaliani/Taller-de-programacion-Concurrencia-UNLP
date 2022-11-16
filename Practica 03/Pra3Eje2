@@ -1,0 +1,111 @@
+programa Pra3Eje2
+procesos
+  proceso juntarFlores
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+  fin
+  
+  proceso juntarPapeles
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+  fin
+
+  proceso izquierda
+  comenzar
+    repetir 3
+      derecha
+  fin
+  
+  proceso escalonDerecha(E cantidad:numero)
+  comenzar
+    repetir 2
+      repetir cantidad
+        mover
+      juntarFlores
+      derecha
+    repetir 2
+      derecha
+  fin
+
+  proceso escalonIzquierda(E cantidad:numero)
+  comenzar
+    repetir 2
+      repetir cantidad
+        mover
+      juntarPapeles
+      izquierda
+    repetir 2
+      izquierda
+  fin
+
+areas
+  area: AreaPC(1,1,31,31)
+robots
+  robot tipo1
+  variables
+    cantidad:numero
+  comenzar
+    cantidad:=5
+    mientras cantidad>0
+      escalonDerecha(cantidad)
+      cantidad:=cantidad - 1
+      si cantidad=1
+        BloquearEsquina(16,16)
+    izquierda
+    mover
+    LiberarEsquina(16,16)
+    cantidad:=2
+    mientras cantidad<6
+      escalonDerecha(cantidad)
+      cantidad:=cantidad + 1
+  fin
+
+  robot tipo2
+  variables
+    cantidad:numero
+  comenzar
+    cantidad:=5
+    mientras cantidad>0
+      escalonIzquierda(cantidad)
+      cantidad:=cantidad - 1
+      si cantidad=1
+        BloquearEsquina(16,16)
+    derecha
+    mover
+    LiberarEsquina(16,16)
+    cantidad:=2
+    mientras cantidad<6
+      escalonIzquierda(cantidad)
+      cantidad:=cantidad + 1
+  fin
+  
+  robot jefe
+  variables
+    numRobot:numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r1)
+  fin
+
+variables
+  r1:tipo1
+  r2:tipo2
+  je:jefe
+comenzar
+  AsignarArea(r1,area)
+  AsignarArea(r2,area)
+  AsignarArea(je,area)
+  Iniciar(r1,1,1)
+  Iniciar(r2,31,1)
+  Iniciar(je,15,1)
+
+fin
+
+
+
+
+
+
+

@@ -1,0 +1,113 @@
+programa Pra1Eje5
+procesos
+  proceso juntarFlores(ES flores:numero)
+  comenzar
+    mientras HayFlorEnLaEsquina
+      tomarFlor
+      flores:=flores+1
+  fin
+
+  proceso depositarFlores(ES flores:numero)
+  comenzar
+    repetir flores
+      depositarFlor
+    flores:=0
+  fin
+  
+  proceso recorrerCalle
+  variables
+    flores:numero
+    calle:numero
+  comenzar
+    flores:=0
+    calle:=PosCa+5
+    repetir 6
+      repetir 19
+        juntarFlores(flores)
+        mover
+      juntarFlores(flores)
+      si (PosCa < calle)
+        Pos(PosAv - 19,PosCa+1)
+    depositarFlores(flores)
+  fin
+
+
+
+
+
+  proceso juntarPapeles(ES papeles:numero)
+  comenzar
+    mientras HayPapelEnLaEsquina
+      tomarPapel
+      papeles:=papeles+1
+  fin
+
+  proceso depositarPapeles(ES papeles:numero)
+  comenzar
+    repetir papeles
+      depositarPapel
+    papeles:=0
+  fin
+  
+  proceso recorrerAvenida
+  variables
+    papeles:numero
+    avenida:numero
+  comenzar
+    papeles:=0
+    avenida:=PosAv+5
+    repetir 6
+      repetir 19
+        juntarPapeles(papeles)
+        mover
+      juntarPapeles(papeles)
+      si (PosAv < avenida)
+        Pos(PosAv + 1,PosCa - 19)
+    depositarPapeles(papeles)
+  fin
+
+
+
+
+
+
+
+  
+areas
+  area1: AreaP(1,75,20,80)
+  area3: AreaP(80,10,99,15)
+  area2: AreaP(75,80,80,99)
+  area4: AreaP(10,1,15,20)
+
+  
+robots
+  robot tipo1
+  comenzar
+    derecha
+    recorrerCalle
+  fin
+  
+  robot tipo2
+  comenzar
+    recorrerAvenida
+  fin
+
+  
+variables
+  r1,r3: tipo1
+  r2,r4: tipo2
+
+comenzar
+  AsignarArea(r1,area1)
+  AsignarArea(r3,area3)
+  AsignarArea(r2,area2)
+  AsignarArea(r4,area4)
+  Iniciar(r1,1,75)
+  Iniciar(r3,80,10)
+  Iniciar(r2,75,80)
+  Iniciar(r4,10,1)
+
+fin
+
+
+
